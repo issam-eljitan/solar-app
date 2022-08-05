@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import mapboxgl from 'mapbox-gl';
+import turf from 'turf/turf';
 
 import AddressBar from './AddressBar.jsx';
 
@@ -9,6 +10,7 @@ mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 const Mapbox = () => {
   const container = React.useRef(null);
   const [map, setMap] = React.useState(null);
+  const [selectedBuilding, setSelectedBuilding] = React.useState(null);
 
   useEffect(() => {
     // create new instance of mapbox map
@@ -19,6 +21,53 @@ const Mapbox = () => {
     });
 
     setMap(map);
+
+    // click event to isolate/ select a building
+    map.on('click', function (e) {
+      const features = map.queryRenderedFeatures(e.point, {
+        filter: ['==', 'extrude', 'true'],
+        validate: true,
+      });
+
+      if (!features.length) return;
+
+      // Reduce all features to the one with the greatest area
+      const selectedFeature = features.reduce((max, f) =>
+        turf.area(f) > turf.area(max) ? f : max
+      );
+
+      if (!selectedFeature.id) return;
+
+      const allFeaturesWithSameId = map.querySourceFeatures('composite', {
+        sourceLayer: 'building',
+        filter: ['==', '$id', selectedFeature.id],
+      });
+
+      // Merge all the features with the same id into one feature (i.e. a roof)
+      const mergedFeature = allFeaturesWithSameId.reduce((a, b) =>
+        turf.union(a, b)
+      );
+
+      // Create custom GeoJSON feature object with all mergedFeature geometry and properties
+      const selectedBuildingFeature = {
+        type: 'Feature',
+        id: selectedFeature.id,
+        properties: {
+          class_id: 1,
+          ...allFeaturesWithSameId.reduce((a, b) => ({
+            ...a.properties,
+            ...b.properties,
+          })),
+        },
+        geometry: {
+          type: 'Polygon',
+          coordinates: mergedFeature.geometry.coordinates,
+        },
+      };
+
+      setSelectedBuilding(selectedBuildingFeature);
+    });
+    return () => map.remove();
   }, []);
 
   const addressSearch = (longitude, latitude) => {
