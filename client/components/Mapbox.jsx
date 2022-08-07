@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import turf from 'turf/turf';
 
+import Result from './Result.jsx';
 import AddressBar from './AddressBar.jsx';
 
 mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
@@ -82,6 +83,9 @@ const Mapbox = () => {
     <>
       <div className='map-container' ref={container} />
       <AddressBar addressSearch={addressSearch} />
+      {selectedBuilding && (
+        <Result selectedBuilding={selectedBuilding} map={map} />
+      )}
     </>
   );
 };
