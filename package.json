@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "test",
-    "dev": "cross-env NODE_ENV=development webpack serve"
+    "dev": "cross-env NODE_ENV=development webpack serve & python3 server/app.py"
   },
   "repository": {
     "type": "git",

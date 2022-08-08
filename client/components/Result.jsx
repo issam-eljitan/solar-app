@@ -11,6 +11,8 @@ const baseClient = mbxClient({ accessToken: process.env.ACCESS_TOKEN });
 const mapboxClient = staticClient(baseClient);
 
 const Result = ({ selectedBuilding, map }) => {
+  const [image, setImage] = useState(null);
+
   const postData = async () => {
     const building = selectedBuilding;
     //  calculate the bounding box of the building
@@ -61,7 +63,27 @@ const Result = ({ selectedBuilding, map }) => {
     });
     coordinates.push(coordinates[0]);
 
-    // image processing here...
+    // Send image to API for processing
+    const response = await axios.post(
+      '/image',
+      {
+        image: staticImage.url(),
+        building: building,
+        coordinates: coordinates,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        cache: 'no-cache',
+      }
+    );
+
+    const blob = await response;
+    const imageBytes = blob.data.image;
+
+    setImage('data:image/jpeg;base64,' + imageBytes);
   };
 
   return (
@@ -79,6 +101,11 @@ const Result = ({ selectedBuilding, map }) => {
             <button className='process' onClick={postData}>
               Process Selected Building
             </button>
+            {image && (
+              <>
+                <img src={image} alt='Selected Building' />
+              </>
+            )}
           </div>
         </div>
       )}
