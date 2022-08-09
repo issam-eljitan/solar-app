@@ -86,6 +86,28 @@ const Result = ({ selectedBuilding, map }) => {
     setImage('data:image/jpeg;base64,' + imageBytes);
   };
 
+  const downloadImage = () => {
+    const byteString = atob(image.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: 'image/jpeg' });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'roof.jpg';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className='selected-building'>
       {selectedBuilding && (
@@ -104,6 +126,7 @@ const Result = ({ selectedBuilding, map }) => {
             {image && (
               <>
                 <img src={image} alt='Selected Building' />
+                <button onClick={downloadImage}>Download Image</button>
               </>
             )}
           </div>

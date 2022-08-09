@@ -1,0 +1,148 @@
+/* RESETTING ELEMENTS TO DEFAULT VALUES */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+* {
+	box-sizing: border-box;
+  font-family: 'Itim', cursive;
+}
+
+body {
+    background-color: rgb(167, 167, 167);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.solar {
+  font-size: 5rem;
+  margin: 1rem 0 .7rem 0;
+}
+
+.map-container {
+  margin: auto;
+  height: 500px;
+  width: 1000px;
+  border-radius: 1rem;
+  border: 3px solid black;
+}
+
+.address {
+  margin: 1rem 0;
+  
+  input {
+    width: 30rem;
+    height: 2.5rem;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    margin-right: .2rem;
+    padding-left: 8px;
+  }
+
+  button {
+    width: 5rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    background-color: rgb(97, 95, 95);
+  }
+
+  button:hover .process button:hover {
+    background-color: rgba(169, 169, 169, 0.632);
+  }
+
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  label {
+    font-size: 2rem;
+    margin-right: .5rem;
+  }
+}
+
+.process {
+  width: 18rem;
+  height: 2.5rem;
+  font-size: 1.4rem;
+  border-radius: 8px;
+  background-color: rgb(97, 95, 95);
+}
+
+.roof-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: .8rem;
+  }
+}
+
+.panel-prediction {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-prediction img {
+  margin: 1rem 0;
+}

@@ -19,6 +19,9 @@ module.exports = {
       directory: path.resolve(__dirname, 'build'),
       publicPath: '/',
     },
+    proxy: {
+      '/**': 'http://0.0.0.0:8000',
+    },
   },
   module: {
     rules: [
